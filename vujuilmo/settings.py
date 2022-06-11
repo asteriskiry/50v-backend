@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-*8i!wo0plw0(myd4yaf68um47ucin6p4fv5m4f9)1)+!@)&)5b"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -41,12 +41,14 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "corsheaders",
     "api",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -140,6 +142,9 @@ INVITED_END_DATE = timezone.datetime(2022, 8, 14, 23, 59, tzinfo=ZoneInfo(TIME_Z
 ILMO_START_DATE = timezone.datetime(2022, 8, 16, 13, 37, tzinfo=ZoneInfo(TIME_ZONE))
 ILMO_END_DATE = timezone.datetime(2022, 8, 31, 23, 59, tzinfo=ZoneInfo(TIME_ZONE))
 MAX_PARTICIPANTS = 250
+
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = ()
 
 try:
     from .local_settings import *

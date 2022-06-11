@@ -33,6 +33,8 @@ class ParticipantView(generics.ListCreateAPIView):
             "main_count": Participant.objects.count_main_participants(),
             "fitting_count": Participant.objects.count_fitting_participants(),
             "reserve_count": Participant.objects.count_reserve_participants(),
+            "fitting_participants": [],
+            "reserve_participants": [],
         }
         if reg_status in (
             utils.RegistrationStatus.MAIN_IN_PROGRESS,

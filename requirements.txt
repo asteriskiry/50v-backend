@@ -13,3 +13,4 @@ flake8-black==0.3.3
 isort==5.10.1
 pylint==2.14.1
 pylint-django==2.5.3
+django-cors-headers==3.13.0
