@@ -14,8 +14,8 @@ class ParticipantAdmin(admin.ModelAdmin):
         "last_name",
         "email",
     )
-    list_display = ("first_name", "last_name", "email", "is_in_reserve")
-    list_filter = ("is_in_reserve", "is_attending_sillis", "is_greeting")
+    list_display = ("first_name", "last_name", "email", "is_invited", "is_in_reserve")
+    list_filter = ("is_invited", "is_in_reserve", "is_attending_sillis", "is_greeting")
     fields = (
         "ctime",
         "mtime",
@@ -31,8 +31,10 @@ class ParticipantAdmin(admin.ModelAdmin):
         "avecs_name",
         "other_info",
         "is_greeting",
+        "is_invited",
         "is_in_reserve",
         "party_representing",
+        "dont_show_name",
         "is_consenting",
     )
     readonly_fields = ("ctime", "mtime")

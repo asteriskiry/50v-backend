@@ -11,8 +11,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-from django.utils import timezone
 from zoneinfo import ZoneInfo
+
+from django.utils import timezone
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -134,14 +135,13 @@ REST_FRAMEWORK = {
     ]
 }
 
-ILMO_START_DATE = timezone.datetime(2021, 3, 3, 13, 37, tzinfo=ZoneInfo(TIME_ZONE))
-ILMO_END_DATE = timezone.datetime(2021, 12, 31, 0, 0, tzinfo=ZoneInfo(TIME_ZONE))
-RESERVE_START_DATE = ILMO_END_DATE
-RESERVE_END_DATE = timezone.datetime(2022, 1, 31, 0, 0, tzinfo=ZoneInfo(TIME_ZONE))
+INVITED_START_DATE = timezone.datetime(2022, 8, 1, 0, 0, tzinfo=ZoneInfo(TIME_ZONE))
+INVITED_END_DATE = timezone.datetime(2022, 8, 14, 23, 59, tzinfo=ZoneInfo(TIME_ZONE))
+ILMO_START_DATE = timezone.datetime(2022, 8, 16, 13, 37, tzinfo=ZoneInfo(TIME_ZONE))
+ILMO_END_DATE = timezone.datetime(2022, 8, 31, 23, 59, tzinfo=ZoneInfo(TIME_ZONE))
 MAX_PARTICIPANTS = 250
-MAX_RESERVE_PARTICIPANTS = 50
 
 try:
-    from local_settings import *
+    from .local_settings import *
 except ImportError:
     pass

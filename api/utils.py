@@ -1,46 +1,52 @@
+from enum import Enum
+
 from django.conf import settings
 from django.utils.timezone import now
-from enum import Enum
+
 from api.models import Participant
 
 
+def is_invited_registration() -> bool:
+    day_ok = settings.INVITED_START_DATE <= now() <= settings.INVITED_END_DATE
+    return not Participant.objects.is_full() and day_ok
+
+
 def is_main_registration() -> bool:
-    return settings.ILMO_START_DATE <= now() <= settings.ILMO_END_DATE
+    day_ok = settings.ILMO_START_DATE <= now() <= settings.ILMO_END_DATE
+    return not Participant.objects.is_full() and day_ok
 
 
 def is_reserve_registration() -> bool:
-    return settings.RESERVE_START_DATE <= now() <= settings.RESERVE_END_DATE
+    day_ok = settings.ILMO_START_DATE <= now() <= settings.ILMO_END_DATE
+    return Participant.objects.is_full() and day_ok
 
 
 class RegistrationStatus(Enum):
     NOT_STARTED = 0
-    MAIN_IN_PROGRESS = 1
-    MAIN_FULL = 2
-    MAIN_ENDED = 3
+    INVITED_IN_PROGRESS = 1
+    INVITED_ENDED = 2
+    MAIN_IN_PROGRESS = 3
     RESERVE_IN_PROGRESS = 4
-    RESERVE_FULL = 5
-    RESERVE_ENDED = 6
+    ENDED = 5
 
 
 def registration_status() -> RegistrationStatus:
-    if now() <= settings.ILMO_START_DATE:
+    if now() < settings.INVITED_START_DATE:
         return RegistrationStatus.NOT_STARTED
 
+    if is_invited_registration():
+        return RegistrationStatus.INVITED_IN_PROGRESS
+
+    if settings.INVITED_END_DATE < now() < settings.ILMO_START_DATE:
+        return RegistrationStatus.INVITED_ENDED
+
     if is_main_registration():
-        if Participant.objects.is_main_full():
-            return RegistrationStatus.MAIN_FULL
         return RegistrationStatus.MAIN_IN_PROGRESS
 
-    if settings.ILMO_END_DATE <= now() <= settings.RESERVE_START_DATE:
-        return RegistrationStatus.MAIN_ENDED
-
     if is_reserve_registration():
-        if Participant.objects.is_reserve_full():
-            return RegistrationStatus.RESERVE_FULL
         return RegistrationStatus.RESERVE_IN_PROGRESS
 
-    if settings.RESERVE_END_DATE <= now():
-        return RegistrationStatus.RESERVE_ENDED
+    if now() > settings.ILMO_END_DATE:
+        return RegistrationStatus.ENDED
 
-    return RegistrationStatus.RESERVE_ENDED
-
+    return RegistrationStatus.NOT_STARTED

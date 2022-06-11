@@ -1,8 +1,9 @@
-from rest_framework import serializers
 from django.conf import settings
+from rest_framework import serializers
+
+from api import utils
 
 from .models import Participant
-from api import utils
 
 
 class ParticipantSerializer(serializers.ModelSerializer):
@@ -26,33 +27,35 @@ class ParticipantSerializer(serializers.ModelSerializer):
             "avecs_name",
             "other_info",
             "is_greeting",
-            "is_in_reserve",
             "party_representing",
             "is_consenting",
+            "dont_show_name",
         ]
 
     def validate(self, data):
-        if not utils.is_main_registration() and not utils.is_reserve_registration():
+        if utils.registration_status() in (
+            utils.RegistrationStatus.NOT_STARTED,
+            utils.RegistrationStatus.INVITED_ENDED,
+            utils.RegistrationStatus.ENDED,
+        ):
             raise serializers.ValidationError("Ilmoittautuminen ei ole auki")
-
-        if self.is_registration_full():
-            raise serializers.ValidationError("Ilmoittautuminen on täynnä")
 
         return data
 
     def create(self, validated_data):
-        if utils.is_main_registration():
-            validated_data["is_in_reserve"] = False
-        else:
+        if utils.registration_status() == utils.RegistrationStatus.INVITED_IN_PROGRESS:
+            validated_data["is_invited"] = True
+
+        if utils.registration_status() == utils.RegistrationStatus.RESERVE_IN_PROGRESS:
             validated_data["is_in_reserve"] = True
+
         return Participant.objects.create(**validated_data)
 
     def to_representation(self, instance):
         get_fields = ["first_name", "last_name"]
         ret = super().to_representation(instance)
-        return {k: v for k, v in ret.items() if k in get_fields}
-
-    def is_registration_full(self):
-        if utils.is_main_registration():
-            return Participant.objects.is_main_full()
-        return Participant.objects.is_reserve_full()
+        if ret["dont_show_name"]:
+            ret["first_name"] = "***"
+            ret["last_name"] = "***"
+        data = {k: v for k, v in ret.items() if k in get_fields}
+        return data
