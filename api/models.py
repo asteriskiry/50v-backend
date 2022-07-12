@@ -63,6 +63,7 @@ class Participant(models.Model):
 
     starting_year = models.IntegerField(
         null=True,
+        blank=True,
         verbose_name="Opintojen aloitusvuosi",
     )
 

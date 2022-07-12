@@ -25,7 +25,7 @@ class ParticipantAdmin(admin.ModelAdmin):
         "email",
         "is_asteriski_member",
         "is_alcohol_free",
-        "is_vege",
+        "menu",
         "excretory_diets",
         "is_attending_sillis",
         "avecs_name",
@@ -34,7 +34,7 @@ class ParticipantAdmin(admin.ModelAdmin):
         "is_invited",
         "is_in_reserve",
         "party_representing",
-        "dont_show_name",
+        "show_name",
         "is_consenting",
     )
     readonly_fields = ("ctime", "mtime")
