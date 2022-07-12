@@ -40,6 +40,11 @@ class Participant(models.Model):
         verbose_name = "Ilmoittautuja"
         verbose_name_plural = "Ilmoittautuneet"
 
+    class Menu(models.TextChoices):
+        KASVIS = "VG", "Kasvis"
+        LIHA = "LI", "Liha"
+        KALA = "KA", "Kala"
+
     ctime = models.DateTimeField(
         auto_now_add=True, verbose_name="Ilmoittautuminen tehty"
     )
@@ -74,8 +79,11 @@ class Participant(models.Model):
         verbose_name="Alkoholiton",
     )
 
-    is_vege = models.BooleanField(
-        verbose_name="Lihaton",
+    menu = models.CharField(
+        max_length=2,
+        verbose_name="Menu",
+        choices=Menu.choices,
+        default=Menu.LIHA,
     )
 
     excretory_diets = models.CharField(
@@ -108,9 +116,9 @@ class Participant(models.Model):
         default=False,
         verbose_name="Varasijalla",
     )
-    dont_show_name = models.BooleanField(
-        default=False,
-        verbose_name="Ei halua nimen näkyvän listalla",
+    show_name = models.BooleanField(
+        default=True,
+        verbose_name="Nimi saa näkyä listalla",
     )
 
     # Invited guests

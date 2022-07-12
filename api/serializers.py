@@ -21,7 +21,7 @@ class ParticipantSerializer(serializers.ModelSerializer):
             "email",
             "is_asteriski_member",
             "is_alcohol_free",
-            "is_vege",
+            "menu",
             "excretory_diets",
             "is_attending_sillis",
             "avecs_name",
@@ -29,7 +29,7 @@ class ParticipantSerializer(serializers.ModelSerializer):
             "is_greeting",
             "party_representing",
             "is_consenting",
-            "dont_show_name",
+            "show_name",
         ]
 
     def validate(self, data):
@@ -54,7 +54,7 @@ class ParticipantSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         get_fields = ["first_name", "last_name"]
         ret = super().to_representation(instance)
-        if ret["dont_show_name"]:
+        if not ret["show_name"]:
             ret["first_name"] = "***"
             ret["last_name"] = "***"
         data = {k: v for k, v in ret.items() if k in get_fields}
