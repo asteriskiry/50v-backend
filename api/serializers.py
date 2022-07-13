@@ -15,6 +15,7 @@ class ParticipantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Participant
         fields = [
+            "id",
             "first_name",
             "last_name",
             "starting_year",
@@ -26,6 +27,7 @@ class ParticipantSerializer(serializers.ModelSerializer):
             "is_attending_sillis",
             "avecs_name",
             "other_info",
+            "is_in_reserve",
             "is_greeting",
             "party_representing",
             "is_consenting",
@@ -52,7 +54,7 @@ class ParticipantSerializer(serializers.ModelSerializer):
         return Participant.objects.create(**validated_data)
 
     def to_representation(self, instance):
-        get_fields = ["first_name", "last_name"]
+        get_fields = ["id", "first_name", "last_name", "is_in_reserve"]
         ret = super().to_representation(instance)
         if not ret["show_name"]:
             ret["first_name"] = "***"
