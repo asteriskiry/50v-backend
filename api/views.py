@@ -36,17 +36,12 @@ class ParticipantView(generics.ListCreateAPIView):
             "fitting_participants": [],
             "reserve_participants": [],
         }
-        if reg_status in (
-            utils.RegistrationStatus.MAIN_IN_PROGRESS,
-            utils.RegistrationStatus.RESERVE_IN_PROGRESS,
-            utils.RegistrationStatus.ENDED,
-        ):
-            main_queryset = self.get_queryset()
-            reserve_queryset = Participant.objects.all_reserve_participants()
-            response["fitting_participants"] = ParticipantSerializer(
-                main_queryset, many=True
-            ).data
-            response["reserve_participants"] = ParticipantSerializer(
-                reserve_queryset, many=True
-            ).data
+        main_queryset = self.get_queryset()
+        reserve_queryset = Participant.objects.all_reserve_participants()
+        response["fitting_participants"] = ParticipantSerializer(
+            main_queryset, many=True
+        ).data
+        response["reserve_participants"] = ParticipantSerializer(
+            reserve_queryset, many=True
+        ).data
         return Response(response)
