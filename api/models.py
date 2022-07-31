@@ -31,8 +31,11 @@ class ParticipantManager(models.Manager):
     def count_reserve_participants(self) -> int:
         return self.all_reserve_participants().count()
 
+    def count_all_participants(self) -> int:
+        return self.get_queryset().all().count()
+
     def is_full(self) -> bool:
-        return self.count_fitting_participants() >= settings.MAX_PARTICIPANTS
+        return self.count_all_participants() >= settings.MAX_PARTICIPANTS
 
 
 class Participant(models.Model):
