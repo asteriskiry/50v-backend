@@ -24,11 +24,13 @@ jobs:
         with:
           ARGS: "--delete"
           SCRIPT_AFTER: |
-            ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} << 'EOF'
             cd /home/django/50v-backend
             python -m venv .venv
             source .venv/bin/activate
+            pip install --upgrade pip
             pip install -r requirements.txt
+            chown -R django:django 
+            /home/django/50v-backend            
             python manage.py migrate
-            sudo systemctl restart gunicorn
-            EOF
+            systemctl restart gunicorn
+
