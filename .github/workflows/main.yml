@@ -48,3 +48,4 @@ jobs:
             cd /home/django/your-django-app-directory
             source .venv/bin/activate
             python manage.py runserver
+            systemctl restart gunicorn
