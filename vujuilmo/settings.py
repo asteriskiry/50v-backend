@@ -137,10 +137,10 @@ REST_FRAMEWORK = {
     ]
 }
 
-INVITED_START_DATE = timezone.datetime(2022, 8, 1, 0, 0, tzinfo=ZoneInfo(TIME_ZONE))
-INVITED_END_DATE = timezone.datetime(2022, 8, 14, 23, 59, tzinfo=ZoneInfo(TIME_ZONE))
-ILMO_START_DATE = timezone.datetime(2022, 8, 16, 13, 37, tzinfo=ZoneInfo(TIME_ZONE))
-ILMO_END_DATE = timezone.datetime(2022, 8, 31, 23, 59, tzinfo=ZoneInfo(TIME_ZONE))
+INVITED_START_DATE = timezone.datetime(2024, 12, 27, 0, 0, tzinfo=ZoneInfo(TIME_ZONE))
+INVITED_END_DATE = timezone.datetime(2025, 1, 1, 23, 59, tzinfo=ZoneInfo(TIME_ZONE))
+ILMO_START_DATE = timezone.datetime(2025, 1, 2, 13, 37, tzinfo=ZoneInfo(TIME_ZONE))
+ILMO_END_DATE = timezone.datetime(2025, 1, 5, 23, 59, tzinfo=ZoneInfo(TIME_ZONE))
 MAX_PARTICIPANTS = 250
 
 CORS_ORIGIN_ALLOW_ALL = False
