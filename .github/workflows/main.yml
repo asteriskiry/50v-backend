@@ -13,27 +13,7 @@ jobs:
       # Step 1: Check out the code
       - uses: actions/checkout@v3
 
-      # Step 2: Set up Python
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      # Step 3: Install dependencies
-      - name: Install dependencies
-        run: |
-          python -m venv .venv
-          source .venv/bin/activate
-          pip install -r requirements.txt
-
-      # Step 4: Run migrations and create superuser
-      - name: Run migrations and create superuser
-        run: |
-          source .venv/bin/activate
-          python manage.py migrate
-          python manage.py createsuperuser --email username@test.com --username username
-
-      # Step 5: Deploy to remote server
+      # Step 2: Deploy to remote server
       - name: Deploy to remote server
         uses: easingthemes/ssh-deploy@v2.2.11
         env:
@@ -44,8 +24,11 @@ jobs:
         with:
           ARGS: "--delete"
           SCRIPT_AFTER: |
-            source ~/.bashrc
-            cd /home/django/your-django-app-directory
+            ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} << 'EOF'
+            cd /home/django/50v-backend
+            python -m venv .venv
             source .venv/bin/activate
-            python manage.py runserver
-            systemctl restart gunicorn
+            pip install -r requirements.txt
+            python manage.py migrate
+            sudo systemctl restart gunicorn
+            EOF
