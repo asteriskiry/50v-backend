@@ -30,7 +30,6 @@ jobs:
             source .venv/bin/activate
             pip install --upgrade pip
             pip install -r requirements.txt
-            chown -R django:django /home/django/50v-backend
             python manage.py migrate
-            systemctl restart gunicorn
+            sudo systemctl restart gunicorn
 
