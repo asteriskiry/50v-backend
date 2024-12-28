@@ -21,9 +21,8 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: "/home/django/50v-backend"
-          EXCLUDE: "db.sqlite3, .venv"
+          EXCLUDE: "db.sqlite3"
         with:
-          ARGS: "--delete"
           SCRIPT_AFTER: |
             cd /home/django/50v-backend
             python -m venv .venv
