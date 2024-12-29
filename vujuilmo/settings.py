@@ -139,7 +139,7 @@ REST_FRAMEWORK = {
     ]
 }
 
-INVITED_START_DATE = timezone.datetime(2024, 12, 27, 0, 0, tzinfo=ZoneInfo(TIME_ZONE))
+INVITED_START_DATE = timezone.datetime(2024, 12, 28, 0, 0, tzinfo=ZoneInfo(TIME_ZONE))
 INVITED_END_DATE = timezone.datetime(2025, 1, 1, 23, 59, tzinfo=ZoneInfo(TIME_ZONE))
 ILMO_START_DATE = timezone.datetime(2025, 1, 2, 13, 37, tzinfo=ZoneInfo(TIME_ZONE))
 ILMO_END_DATE = timezone.datetime(2025, 1, 5, 23, 59, tzinfo=ZoneInfo(TIME_ZONE))
