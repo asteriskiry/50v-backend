@@ -8,7 +8,7 @@ from .models import Participant
 
 class ParticipantSerializer(serializers.ModelSerializer):
     starting_year = serializers.IntegerField(
-        min_value=1950, max_value=2022, allow_null=False, required=False
+        min_value=1950, max_value=2025, allow_null=False, required=False
     )
     email = serializers.EmailField()
 
